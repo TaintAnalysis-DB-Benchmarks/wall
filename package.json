@@ -6,7 +6,7 @@
   "scripts": {
     "stop": "lsof -t -i tcp:4000 | xargs kill",
     "start": "nodemon app.js",
-    "data": "sequelize-auto -h localhost -u root -x root -p 8889 -d adamdill_wall -e mysql -o './models'",
+    "data": "sequelize-auto -h localhost -u root -x password -p 3306 -d wall -e mysql -o './models'"
     "preinstall": "npx npm-force-resolutions"
   },
   "keywords": [],
@@ -37,6 +37,7 @@
     "sequelize-auto": "^0.8.1"
   },
   "resolutions": {
+    "**/**/fs-capacitor": "^6.2.0",
     "graphql-upload": "^11.0.0"
   }
 }
