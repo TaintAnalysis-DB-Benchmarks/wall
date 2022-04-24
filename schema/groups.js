@@ -6,6 +6,9 @@ const models = initModels(sequelize);
 const { getUser } = require('../authenticate');
 const { packData:packImageData } = require('./images');
 
+// For performance profiling.
+const { performance } = require('perf_hooks');
+
 const typeDef = gql`
     type ImageGroup {
         id: ID
@@ -142,12 +145,16 @@ const resolvers = {
 };
 
 const packData = async (group, currentUser, req) => {
-    console.log("WORKING")
+    console.log('==================== packData // start ====================');
+    const fnStart = performance.now();
     const relationships = await models.image_group_relationship.findAll({where: {group_id: group.id}});
     group.images = await Promise.all(relationships.map(async (rel) => {
         const image = await models.images.findOne({where: {id: rel.image_id}});
         return packImageData(image, currentUser, req);
     }));
+    const fnEnd = performance.now();
+    console.log('====================  packData // end  ====================');
+    console.log(fnEnd - fnStart);
     return group;
 }
 
