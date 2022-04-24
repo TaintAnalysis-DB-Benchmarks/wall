@@ -10,6 +10,7 @@ const { getUser } = require('../authenticate');
 
 // For profiling.
 const { performance } = require('perf_hooks');
+const { FONT_SANS_10_BLACK } = require('jimp');
 
 const uploadDir = "uploads";
 const imageSize = {
@@ -205,10 +206,18 @@ const resolvers = {
     },
 };
 
+let logging = false;
+let loggingFor;
+
 // TODO: clean this up by removing the Promise.all call
 const packData = async (data, currentUser, req) => {
-    const fnStart = performance.now();
-    console.log('==================== packData [images] // start ', fnStart, ' ====================');
+    // let fnStart;
+    // if (!logging) {
+    //     fnStart = performance.now();
+    //     console.log('==================== packData [images] // start ', fnStart, ' ====================');
+    //     logging = true;
+    //     loggingFor = fnStart;
+    // }
     data.user = await models.users.findOne({ where: { id: data.user_id } });
     if (!currentUser || data.user.user_id !== currentUser.id) {
         // TODO: create a better system to prevent mistakes
@@ -225,9 +234,13 @@ const packData = async (data, currentUser, req) => {
         data.groups = groups.filter(group => group.user_id === currentUser.id);
     }
     createImagePaths(data, req);
-    const fnEnd = performance.now();
-    console.log('====================  packData [images] // end ', fnStart, ' ====================');
-    console.log(fnEnd - fnStart);
+    // if (logging && loggingFor === fnStart) {
+    //     const fnEnd = performance.now();
+    //     console.log('====================  packData [images] // end ', fnStart, ' ====================');
+    //     console.log(fnEnd - fnStart);
+    //     logging = false;
+    //     loggingFor = undefined;
+    // }
     return data;
 };
 

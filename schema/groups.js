@@ -144,17 +144,29 @@ const resolvers = {
     }
 };
 
+let logging = false;
+let loggingFor;
+
 const packData = async (group, currentUser, req) => {
-    const fnStart = performance.now();
-    console.log('==================== packData // start', fnStart, '====================');
+    let fnStart;
+    if (!logging) {
+        fnStart = performance.now();
+        console.log('==================== packData // start ', fnStart, ' ====================');
+        logging = true;
+        loggingFor = fnStart;
+    }
     const relationships = await models.image_group_relationship.findAll({where: {group_id: group.id}});
     group.images = await Promise.all(relationships.map(async (rel) => {
         const image = await models.images.findOne({where: {id: rel.image_id}});
         return packImageData(image, currentUser, req);
     }));
-    const fnEnd = performance.now();
-    console.log('====================  packData // end ', fnStart, ' ====================');
-    console.log(fnEnd - fnStart);
+    if (logging && loggingFor === fnStart) {
+        const fnEnd = performance.now();
+        console.log('====================  packData // end ', fnStart, ' ====================');
+        console.log(fnEnd - fnStart);
+        logging = false;
+        loggingFor = undefined;
+    }
     return group;
 }
 
