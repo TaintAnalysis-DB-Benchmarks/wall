@@ -102,7 +102,7 @@ const resolvers = {
             }
             const user = await models.users.findOne({ where: { email } });
             if (!user) throw new Error('User does not exist');
-            const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '1h'});
+            const token = jwt.sign({user}, JWT_SECRET, {expiresIn: '10d'});
             
             const info = await sendPasswordReset(req, user.email, token);
             return info.response;
@@ -123,7 +123,7 @@ const resolvers = {
 };
 
 const sign = (user) => {
-    return {token: jwt.sign({user}, JWT_SECRET, {expiresIn: '15m'})};
+    return {token: jwt.sign({user}, JWT_SECRET, {expiresIn: '10d'})};
 }
 
 const packData = async(data, currentUser, req) => {
