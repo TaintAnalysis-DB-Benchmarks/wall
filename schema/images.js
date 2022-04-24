@@ -8,6 +8,9 @@ const { v4: uuidv4 } = require('uuid');
 
 const { getUser } = require('../authenticate');
 
+// For profiling.
+const { performance } = require('perf_hooks');
+
 const uploadDir = "uploads";
 const imageSize = {
     "large": { width: 1200, height: jimp.AUTO },
@@ -204,6 +207,8 @@ const resolvers = {
 
 // TODO: clean this up by removing the Promise.all call
 const packData = async (data, currentUser, req) => {
+    console.log('==================== packData [images] // start ====================');
+    const fnStart = performance.now();
     data.user = await models.users.findOne({ where: { id: data.user_id } });
     if (!currentUser || data.user.user_id !== currentUser.id) {
         // TODO: create a better system to prevent mistakes
@@ -220,6 +225,9 @@ const packData = async (data, currentUser, req) => {
         data.groups = groups.filter(group => group.user_id === currentUser.id);
     }
     createImagePaths(data, req);
+    const fnEnd = performance.now();
+    console.log('====================  packData [images] // end  ====================');
+    console.log(fnEnd - fnStart);
     return data;
 };
 
