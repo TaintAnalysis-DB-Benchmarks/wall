@@ -6,7 +6,7 @@
   "scripts": {
     "stop": "lsof -t -i tcp:4000 | xargs kill",
     "start": "nodemon app.js",
-    "data": "sequelize-auto -h localhost -u root -x password -p 3306 -d wall -e mysql -o './models'"
+    "data": "sequelize-auto -h localhost -u root -x password -p 3306 -d wall -e mysql -o './models'",
     "preinstall": "npx npm-force-resolutions"
   },
   "keywords": [],
