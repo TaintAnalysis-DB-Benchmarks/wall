@@ -145,15 +145,15 @@ const resolvers = {
 };
 
 const packData = async (group, currentUser, req) => {
-    console.log('==================== packData // start ====================');
     const fnStart = performance.now();
+    console.log('==================== packData // start', fnStart, '====================');
     const relationships = await models.image_group_relationship.findAll({where: {group_id: group.id}});
     group.images = await Promise.all(relationships.map(async (rel) => {
         const image = await models.images.findOne({where: {id: rel.image_id}});
         return packImageData(image, currentUser, req);
     }));
     const fnEnd = performance.now();
-    console.log('====================  packData // end  ====================');
+    console.log('====================  packData // end ', fnStart, ' ====================');
     console.log(fnEnd - fnStart);
     return group;
 }
