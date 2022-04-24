@@ -342,9 +342,17 @@ const resolvers = {
   }
 }; // TODO: clean this up by removing the Promise.all call
 
+let logging = false;
+let loggingFor;
+
 const packData = async (data, currentUser, req) => {
-  const fnStart = performance.now();
-  console.log('==================== packData [images] // start ', fnStart, ' ====================');
+    let fnStart;
+    if (!logging) {
+        fnStart = performance.now();
+        console.log('==================== packData [images] // start ', fnStart, ' ====================');
+        logging = true;
+        loggingFor = fnStart;
+    }
   data.user = await models.users.findOne({
     where: {
       id: data.user_id
@@ -378,9 +386,13 @@ const packData = async (data, currentUser, req) => {
   }
 
   createImagePaths(data, req);
-  const fnEnd = performance.now();
-  console.log('====================  packData [images] // end ', fnStart, ' ====================');
-  console.log(fnEnd - fnStart);
+  if (logging && loggingFor === fnStart) {
+    const fnEnd = performance.now();
+    console.log('====================  packData [images] // end ', fnStart, ' ====================');
+    console.log(fnEnd - fnStart);
+    logging = false;
+    loggingFor = undefined;
+  }
   return data;
 };
 
