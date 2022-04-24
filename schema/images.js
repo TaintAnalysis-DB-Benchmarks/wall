@@ -343,8 +343,8 @@ const resolvers = {
 }; // TODO: clean this up by removing the Promise.all call
 
 const packData = async (data, currentUser, req) => {
-  console.log('==================== packData [images] // start ====================');
   const fnStart = performance.now();
+  console.log('==================== packData [images] // start ', fnStart, ' ====================');
   data.user = await models.users.findOne({
     where: {
       id: data.user_id
@@ -379,7 +379,7 @@ const packData = async (data, currentUser, req) => {
 
   createImagePaths(data, req);
   const fnEnd = performance.now();
-  console.log('====================  packData [images] // end  ====================');
+  console.log('====================  packData [images] // end ', fnStart, ' ====================');
   console.log(fnEnd - fnStart);
   return data;
 };
