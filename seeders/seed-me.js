@@ -57,7 +57,7 @@ const buildImage = () => {
     return {
         id : imageIDs++,
         user_id : 1,
-        filename : faker.random.arrayElement(imagePaths),
+        filename : faker.helpers.arrayElement(imagePaths),
         title : faker.random.words(3),
         description : faker.random.words(5),
         created : new Date()
@@ -69,7 +69,7 @@ const buildImageGroupRelationship = () => {
     return {
         id : relationshipIDs,
         image_id : relationshipIDs++,
-        group_id : faker.random.arrayElement(groupIDs)
+        group_id : faker.helpers.arrayElement(groupIDs)
     };
 };
 

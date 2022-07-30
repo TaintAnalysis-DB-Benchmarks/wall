@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^7.3.0",
     "apollo-server": "^2.21.1",
     "apollo-server-express": "^2.23.0",
     "bcrypt": "^5.0.1",
