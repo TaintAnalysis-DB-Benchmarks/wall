@@ -50,7 +50,7 @@ const GroupDisplay = () => {
 
     // TODO: move to a helper function
     const url = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
-        ? `${window.location.protocol}//${window.location.hostname}:4000`
+        ? `${window.location.protocol}//${window.location.hostname}:5000`
         : `${window.location.protocol}//${window.location.hostname}`
     return (
         <div className="d-flex flex-column h-100">

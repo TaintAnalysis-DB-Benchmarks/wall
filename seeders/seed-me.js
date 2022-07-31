@@ -48,6 +48,21 @@ const imagePaths = [
 
 const groupIDs = [1, 2, 3];
 
+// We should add these three groups.
+// +----+---------+---------+-------------+
+// | id | user_id | label   | description |
+// +----+---------+---------+-------------+
+// |  1 |       1 | memes   | NULL        |
+// |  2 |       1 | screens | NULL        |
+// |  3 |       1 | maymays | NULL        |
+// +----+---------+---------+-------------+
+
+queryInterface.bulkInsert('image_groups', [
+	{id : 1, user_id : 1, label : 'memes', description : 'apt description'},
+	{id : 2, user_id : 1, label : 'funnies', description : 'heheh'},
+	{id : 3, user_id : 1, label : 'cats', description : 'meow'}
+]);
+
 // +----+---------+-------------------------------------------+--------------------+---------------+---------------------+
 // | id | user_id | filename                                  | title              | description   | created             |
 // +----+---------+-------------------------------------------+--------------------+---------------+---------------------+
@@ -73,7 +88,7 @@ const buildImageGroupRelationship = () => {
     };
 };
 
-const genThisTime = 1000; // 10, or 100, or 1000
+const genThisTime = 10; // 10, or 100, or 1000
 
 queryInterface.bulkInsert('images', [...new Array(genThisTime)].map(buildImage));
 queryInterface.bulkInsert('image_group_relationship', [...new Array(genThisTime)].map(buildImageGroupRelationship));

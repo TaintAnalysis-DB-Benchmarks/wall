@@ -16,7 +16,7 @@ import {NewGroupModal} from './modals';
 
 // TODO: move to a helper function
 const gqlUri = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
-    ? `${window.location.protocol}//${window.location.hostname}:4000/graphql`
+    ? `${window.location.protocol}//${window.location.hostname}:5000/graphql`
     : `${window.location.protocol}//${window.location.hostname}/graphql`
 
 const uploadLink = createUploadLink({ uri: gqlUri });
